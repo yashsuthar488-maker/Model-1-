@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Categories</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="header"></div>
+   
+    <section class="container">
+
+        <h1 style="text-align:center; margin-bottom:40px;">
+            Car Categories
+        </h1>
+
+        <div id="controls" style="margin-bottom:20px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:center;">
+            <input id="search" type="text" placeholder="Search categories..." style="padding:8px; width:220px;">
+            <select id="sort" style="padding:8px;">
+                <option value="">Sort By</option>
+                <option value="title-asc">Title A → Z</option>
+                <option value="title-desc">Title Z → A</option>
+            </select>
+            <div id="radio-box" style="display:flex; gap:8px; align-items:center;">
+                <label style="font-weight:600;">Choose one:</label>
+                <label><input type="radio" name="category-radio" value="all" checked> All</label>
+                <label><input type="radio" name="category-radio" value="SUV"> SUV</label>
+                <label><input type="radio" name="category-radio" value="Sedan"> Sedan</label>
+                <label><input type="radio" name="category-radio" value="Luxury"> Luxury</label>
+                <label><input type="radio" name="category-radio" value="Sports"> Sports</label>
+                <label><input type="radio" name="category-radio" value="Electric"> Electric</label>
+                <label><input type="radio" name="category-radio" value="Convertible"> Convertible</label>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="card">
+                
+                <img src="https://th.bing.com/th/id/OIP.SVpCqyC6eJaKzXWqOgInhAHaE1?w=263&h=180&c=7&r=0&o=7&dpr=1.4&pid=1.7&rm=3" alt="SUV Car">
+                <div class="card-content">
+                    <h2>SUV</h2>
+                    <p>
+                        Powerful and spacious cars perfect for family trips and long journeys.
+                    </p>
+                    <a href="product.html" class="btn">
+                        View Cars
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://th.bing.com/th/id/OIP.UyKZgogfy1_mikMZYD1WuAHaEK?w=285&h=180&c=7&r=0&o=7&dpr=1.4&pid=1.7&rm=3" alt="Sedan Car">
+                <div class="card-content">
+                    <h2>Sedan</h2>
+                    <p>
+                        Comfortable and stylish cars suitable for city and highway driving.
+                    </p>
+                    <a href="product.html" class="btn">
+                        View Cars
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://car-images.bauersecure.com/wp-images/3679/best-luxury-cars-2024.jpeg" width="40%" alt="Luxury Car">
+                <div class="card-content">
+                    <h2>Luxury</h2>
+                    <p>
+                        Premium luxury cars with advanced features and superior comfort.
+                    </p>
+                    <a href="product.html" class="btn">
+                        View Cars
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://th.bing.com/th/id/OIP.XMD6CZDQiJAxIZfnFYuDeAHaEK?w=290&h=180&c=7&r=0&o=7&dpr=1.4&pid=1.7&rm=3" alt="Sports Car">
+                <div class="card-content">
+                    <h2>Sports</h2>
+                    <p>
+                        High-performance sports cars for thrilling driving experiences.
+                    </p>
+                    <a href="product.html" class="btn">
+                        View Cars
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://th.bing.com/th/id/OIP.3WLOrLxCXko7_hdJXm3NUAHaE8?w=272&h=181&c=7&r=0&o=7&dpr=1.4&pid=1.7&rm=3" alt="Electric Car">
+                <div class="card-content">
+                    <h2>Electric</h2>
+                    <p>
+                        Eco-friendly electric cars with modern technology and efficiency.
+                    </p>
+                    <a href="product.html" class="btn">
+                        View Cars
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://th.bing.com/th/id/OIP.sSTUDoM7n_xKe2KEwqc7oQHaEo?w=265&h=180&c=7&r=0&o=7&dpr=1.4&pid=1.7&rm=3" alt="Convertible Car">
+                <div class="card-content">
+                    <h2>Convertible</h2>
+                    <p>
+                        Stylish open-roof cars perfect for vacations and premium rides.
+                    </p>
+                    <a href="product.html" class="btn">
+                        View Cars
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+        <script>
+            // Simple filter & sort for category cards
+            (function() {
+                var searchEl = document.getElementById('search');
+                var sortEl = document.getElementById('sort');
+                var filterCbs = Array.prototype.slice.call(document.querySelectorAll('.filter-cb'));
+                var radioEls = Array.prototype.slice.call(document.querySelectorAll('input[name="category-radio"]'));
+                var grid = document.querySelector('.card-grid');
+
+                function getTitle(card) {
+                    var h = card.querySelector('.card-content h2');
+                    return h ? h.innerText.trim() : '';
+                }
+
+                function apply() {
+                    var q = searchEl.value.trim().toLowerCase();
+                    // radio selection overrides checkboxes when not 'all'
+                    var selectedRadio = document.querySelector('input[name="category-radio"]:checked');
+                    var activeFilters = [];
+                    if (selectedRadio && selectedRadio.value !== 'all') {
+                        activeFilters = [selectedRadio.value.toLowerCase()];
+                    } else {
+                        activeFilters = filterCbs.filter(function(cb){ return cb.checked; }).map(function(cb){ return cb.value.toLowerCase(); });
+                    }
+
+                    var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+
+                    // show/hide based on search & filter
+                    cards.forEach(function(card){
+                        var title = getTitle(card).toLowerCase();
+                        var matchesSearch = q === '' || title.indexOf(q) !== -1;
+                        var matchesFilter = activeFilters.length === 0 || activeFilters.indexOf(title) !== -1;
+                        if (matchesSearch && matchesFilter) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // sort visible cards
+                    var sort = sortEl.value;
+                    if (sort === 'title-asc' || sort === 'title-desc') {
+                        var visible = cards.filter(function(c){ return c.style.display !== 'none'; });
+                        visible.sort(function(a,b){
+                            var ta = getTitle(a).toLowerCase();
+                            var tb = getTitle(b).toLowerCase();
+                            if (ta < tb) return sort === 'title-asc' ? -1 : 1;
+                            if (ta > tb) return sort === 'title-asc' ? 1 : -1;
+                            return 0;
+                        });
+                        visible.forEach(function(c){ grid.appendChild(c); });
+                    }
+                }
+
+                // events
+                searchEl.addEventListener('input', apply);
+                sortEl.addEventListener('change', apply);
+                filterCbs.forEach(function(cb){ cb.addEventListener('change', apply); });
+                radioEls.forEach(function(r){ r.addEventListener('change', apply); });
+
+                // initial apply
+                apply();
+            })();
+        </script>
+        <script src="main.js"></script>
+</body>
+</html>
